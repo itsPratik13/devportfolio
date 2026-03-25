@@ -2,6 +2,7 @@
   "name": "pf",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "npm@10.8.2",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",

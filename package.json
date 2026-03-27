@@ -15,6 +15,7 @@
     "@workspace/typescript-config": "*",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "prisma": "^7.6.0",
     "turbo": "^2.8.17",
     "typescript": "5.9.3"
   },
@@ -26,8 +27,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@prisma/client": "^7.5.0",
-    "@tabler/icons-react": "^3.40.0",
-    "prisma": "^7.5.0"
+    "@prisma/client": "^7.6.0",
+    "@tabler/icons-react": "^3.40.0"
   }
 }

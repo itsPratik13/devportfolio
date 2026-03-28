@@ -5,23 +5,18 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-<<<<<<< HEAD
-
-=======
->>>>>>> 537e852046fcf336f71b99fd373e265a48257fe1
- 
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id             Int      @id @default(autoincrement())
   name           String
   bio            String?
-  githubUsername String  @unique
+  githubUsername String   @unique
   avatarUrl      String?
   followers      Int      @default(0)
   location       String?
@@ -63,8 +58,4 @@ model LanguageStats {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 537e852046fcf336f71b99fd373e265a48257fe1

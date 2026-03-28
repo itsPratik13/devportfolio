@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -34,8 +33,3 @@
   ],
   "exclude": ["node_modules"]
 }
-=======
-  "extends": "@workspace/typescript-config/base.json"
-}
-
->>>>>>> 537e852046fcf336f71b99fd373e265a48257fe1

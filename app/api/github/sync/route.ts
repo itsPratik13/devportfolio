@@ -101,45 +101,131 @@ export async function GET(req: Request) {
     // })),
     // });
 
-    for (const repo of repos) {
-      await prisma.repo.upsert({
-        where: {
-          userId_name: {
+    const graphQLquery=`{
+      user(login: "${GITHUB_USERNAME}"){
+        contributionsCollection{
+          contributionCalendar{
+          weeks{
+            contributionDays{
+              date
+              contributionCount
+            }
+          }
+          }
+        }
+        pinnedItems(first:6,types:REPOSITORY){
+          nodes{
+            ... on Repository{
+              name
+            }
+          }
+        }
+      }
+    }`
+    const graphQlRequest=await fetch("https://api.github.com/graphql",{
+      method:"POST",
+      headers: {
+        Authorization: `Bearer ${GITHUB_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({query:graphQLquery})
+    })
+
+    const graphqlData=await graphQlRequest.json();
+
+    const pinnedRepos:string[]=graphqlData.data.user.pinnedItems.nodes.map((node:any)=>node.name);
+
+    const contributions: { date: string; contributionCount: number }[] =
+  graphqlData.data.user.contributionsCollection.contributionCalendar.weeks
+    .flatMap((week: any) => week.contributionDays)
+    .map((day: any) => ({
+      date: day.date,
+      contributionCount: day.contributionCount,
+    }));
+
+    // for (const repo of repos) {
+      // await prisma.repo.upsert({
+        // where: {
+          // userId_name: {
+            // userId: user.id,
+            // name: repo.name,
+          // },
+        // },
+        // update: {
+          // stars: repo.stargazers_count,
+          // forks: repo.forks_count,
+          // description: repo.description ?? "unknown",
+          // is_pinned:pinnedRepos.includes(repo.name),
+          // language:repo.language || "unknown",
+          // url:repo.html_url,
+
+        // },
+        // create: {
+          // userId: user.id,
+          // name: repo.name,
+          // description: repo.description ?? "unknown",
+          // stars: repo.stargazers_count,
+          // forks: repo.forks_count,
+          // url: repo.html_url,
+          // is_pinned: false,
+          // language: repo.language || "unknown",
+        // },
+      // });
+    // }
+    await Promise.all(
+      repos.map((repo: any) =>
+        prisma.repo.upsert({
+          where: { userId_name: { userId: user.id, name: repo.name } },
+          update: {
+            stars: repo.stargazers_count,
+            forks: repo.forks_count,
+            description: repo.description ?? null,
+            is_pinned: pinnedRepos.includes(repo.name),
+            language: repo.language || "unknown",
+            url: repo.html_url,
+          },
+          create: {
             userId: user.id,
             name: repo.name,
+            description: repo.description ?? null,
+            stars: repo.stargazers_count,
+            forks: repo.forks_count,
+            url: repo.html_url,
+            is_pinned: pinnedRepos.includes(repo.name),
+            language: repo.language || "unknown",
           },
-        },
-        update: {
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          description: repo.description ?? "unknown",
-          is_pinned:false,
-          language:repo.language || "unknown",
-          url:repo.html_url,
-
-        },
-        create: {
-          userId: user.id,
-          name: repo.name,
-          description: repo.description ?? "unknown",
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          url: repo.html_url,
-          is_pinned: false,
-          language: repo.language || "unknown",
-        },
-      });
-    }
+        })
+      )
+    );
     await prisma.repo.deleteMany({
       where: {
         userId: user.id,
         name: { notIn: repos.map((r: any) => r.name) },
       },
     });
+    for (const day of contributions) {
+      await prisma.contribution.upsert({
+        where: {
+          userId_date: {
+            userId: user.id,
+            date: new Date(day.date),
+          },
+        },
+        update: {
+          commitCount: day.contributionCount,
+        },
+        create: {
+          userId: user.id,
+          date: new Date(day.date),
+          commitCount: day.contributionCount,
+        },
+      });
+    }
     return NextResponse.json({
       success: true,
       user,
       repos_synced: repos.length,
+      contributions_synced: contributions.length,
     });
   } catch (error) {
     console.error("Error syncing GitHub user:", error);

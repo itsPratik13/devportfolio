@@ -7,7 +7,7 @@ CREATE TABLE "User" (
     "avatarUrl" TEXT,
     "followers" INTEGER NOT NULL DEFAULT 0,
     "location" TEXT,
-    "fetchedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "fetchedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -21,7 +21,7 @@ CREATE TABLE "Repo" (
     "stars" INTEGER NOT NULL DEFAULT 0,
     "url" TEXT NOT NULL,
     "is_pinned" BOOLEAN NOT NULL DEFAULT false,
-    "language" TEXT NOT NULL,
+    "language" TEXT,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Repo_pkey" PRIMARY KEY ("id")
@@ -48,11 +48,32 @@ CREATE TABLE "LanguageStats" (
     CONSTRAINT "LanguageStats_pkey" PRIMARY KEY ("id")
 );
 
--- AddForeignKey
-ALTER TABLE "Repo" ADD CONSTRAINT "Repo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "User_githubUsername_key" ON "User"("githubUsername");
+
+-- CreateIndex
+CREATE INDEX "Repo_userId_idx" ON "Repo"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Repo_userId_name_key" ON "Repo"("userId", "name");
+
+-- CreateIndex
+CREATE INDEX "Contribution_userId_idx" ON "Contribution"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Contribution_userId_date_key" ON "Contribution"("userId", "date");
+
+-- CreateIndex
+CREATE INDEX "LanguageStats_userId_idx" ON "LanguageStats"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "LanguageStats_userId_name_key" ON "LanguageStats"("userId", "name");
 
 -- AddForeignKey
-ALTER TABLE "Contribution" ADD CONSTRAINT "Contribution_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Repo" ADD CONSTRAINT "Repo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LanguageStats" ADD CONSTRAINT "LanguageStats_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Contribution" ADD CONSTRAINT "Contribution_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LanguageStats" ADD CONSTRAINT "LanguageStats_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

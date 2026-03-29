@@ -55,7 +55,7 @@ export async function GET(req: Request) {
             bio: profile.bio || null,
             followers: profile.followers || 0,
             location: profile.location || null,
-            fetchedAt: new Date(),
+          
           },
         })
       : await prisma.user.create({
@@ -66,7 +66,7 @@ export async function GET(req: Request) {
             bio: profile.bio || null,
             followers: profile.followers || 0,
             location: profile.location || null,
-            fetchedAt: new Date(),
+            
           },
         });
     const reposRetrieved = await fetch(
@@ -83,22 +83,58 @@ export async function GET(req: Request) {
       throw new Error(`GitHub repos API failed: ${reposRetrieved.status}`);
     }
     const repos = await reposRetrieved.json();
+    // await prisma.repo.deleteMany({
+    // where: {
+    // userId: user.id,
+    // },
+    // });
+    // await prisma.repo.createMany({
+    // data: repos.map((repo: any) => ({
+    // name: repo.name,
+    // description: repo.description ?? null,
+    // stars: repo.stargazers_count,
+    // forks: repo.forks_count,
+    // url: repo.html_url,
+    // language: repo.language || "unknown",
+    // is_pinned: false,
+    // userId: user.id,
+    // })),
+    // });
+
+    for (const repo of repos) {
+      await prisma.repo.upsert({
+        where: {
+          userId_name: {
+            userId: user.id,
+            name: repo.name,
+          },
+        },
+        update: {
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          description: repo.description ?? "unknown",
+          is_pinned:false,
+          language:repo.language || "unknown",
+          url:repo.html_url,
+
+        },
+        create: {
+          userId: user.id,
+          name: repo.name,
+          description: repo.description ?? "unknown",
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          url: repo.html_url,
+          is_pinned: false,
+          language: repo.language || "unknown",
+        },
+      });
+    }
     await prisma.repo.deleteMany({
       where: {
         userId: user.id,
+        name: { notIn: repos.map((r: any) => r.name) },
       },
-    });
-    await prisma.repo.createMany({
-      data: repos.map((repo: any) => ({
-        name: repo.name,
-        description: repo.description ?? null,
-        stars: repo.stargazers_count,
-        forks: repo.forks_count,
-        url: repo.html_url,
-        language: repo.language || "unknown",
-        is_pinned: false,
-        userId: user.id,
-      })),
     });
     return NextResponse.json({
       success: true,

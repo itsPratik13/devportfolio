@@ -15,7 +15,7 @@ model User {
   avatarUrl      String?
   followers      Int             @default(0)
   location       String?
-  fetchedAt      DateTime        @default(now())
+  fetchedAt      DateTime        @updatedAt
   contributions  Contribution[]
   languages      LanguageStats[]
   repos          Repo[]
@@ -31,7 +31,10 @@ model Repo {
   is_pinned   Boolean @default(false)
   language    String?
   userId      Int
-  user        User    @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id] ,onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
 }
 
 model Contribution {
@@ -39,7 +42,10 @@ model Contribution {
   date        DateTime
   commitCount Int      @default(0)
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id],onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([userId,date])
 }
 
 model LanguageStats {
@@ -48,5 +54,8 @@ model LanguageStats {
   percent Float
   color   String
   userId  Int
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id] ,onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
 }

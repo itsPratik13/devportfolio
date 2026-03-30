@@ -208,7 +208,7 @@ export async function GET(req: Request) {
         where: {
           userId_date: {
             userId: user.id,
-            date: new Date(day.date),
+            date: new Date(day.date + "T00:00:00.000Z"),
           },
         },
         update: {

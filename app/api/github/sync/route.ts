@@ -216,11 +216,76 @@ export async function GET(req: Request) {
         },
         create: {
           userId: user.id,
-          date: new Date(day.date),
+          date: new Date(day.date + "T00:00:00.000Z"),
           commitCount: day.contributionCount,
         },
       });
     }
+    const languageCount:Record<string,number>={};
+    for(const repo of repos){
+      if(repo.language && repo.language!=="unknown"){
+        languageCount[repo.language]=(languageCount[repo.language]||0)+1;
+
+      }
+    }
+    const totalrepos=Object.values(languageCount).reduce((a,b)=>a+b,0);
+    const LANGUAGE_COLORS: Record<string, string> = {
+      TypeScript: "#3178c6",
+      JavaScript: "#f1e05a",
+      Python: "#3572A5",
+      Rust: "#dea584",
+      Go: "#00ADD8",
+      Java: "#b07219",
+      CSS: "#563d7c",
+      HTML: "#e34c26",
+      Shell: "#89e051",
+      Ruby: "#701516",
+      Swift: "#F05138",
+      Kotlin: "#A97BFF",
+      Dart: "#00B4AB",
+      "C++": "#f34b7d",
+      C: "#555555",
+      "C#": "#178600",
+    };
+    const languageStats=Object.entries(languageCount).map(([language,count])=>({
+      name:language,
+      percent:Number(((count/totalrepos)*100).toFixed(2)),
+      color:LANGUAGE_COLORS[language]||"#8b949e"
+    })).sort((a:any,b:any)=>b.percent-a.percent).slice(0,8);
+
+    await Promise.all(
+      languageStats.map((lang) =>
+        prisma.languageStats.upsert({
+          where: {
+            userId_name: {
+              userId: user.id,
+              name: lang.name,
+            },
+          },
+          update: {
+            percent: lang.percent,
+            color: lang.color,
+          },
+          create: {
+            userId: user.id,
+            name: lang.name,
+            percent: lang.percent,
+            color: lang.color,
+          },
+        })
+      )
+    );
+    
+    
+    await prisma.languageStats.deleteMany({
+      where: {
+        userId: user.id,
+        name: { notIn: languageStats.map((l) => l.name) },
+      },
+    });
+    
+    
+
     return NextResponse.json({
       success: true,
       user,

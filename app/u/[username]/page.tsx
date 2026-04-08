@@ -2,6 +2,7 @@ import Container from "@/components/Container";
 import ContributionHeatmap from "@/components/HeatMap";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import { calculateStreak } from "@/lib/Streak";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -24,6 +25,7 @@ export default async function ProfilePage({ params }: Props) {
   });
 
   if (!user) notFound();
+  const {currentStreak,longestStreak}=calculateStreak(user.contributions)
 
   return (
     <div className="flex items-center justify-center min-h-screen ">
@@ -47,6 +49,9 @@ export default async function ProfilePage({ params }: Props) {
           0
         )}
       />
+      <p>Current Streak:{currentStreak}</p>
+      <p>Longest Streak :{longestStreak}</p>
+
       </Container>
     </div>
   );

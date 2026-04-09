@@ -25,13 +25,13 @@ const RotatingText = ({texts,interval=3500,className}:RotatingTextProps) => {
   return (
     <div className={className}>
         <AnimatePresence mode="wait">   {/*wait for old word to finish  */}
-        <motion.span key={currentText} style={{display:"inline-flex" ,gap:"2px",fontSize:"inherit"}}>
+        <motion.span key={currentText} style={{display:"inline-flex" ,gap:"2px",fontSize:"inherit",}}>
             {currentText.split("").map((char,index)=>(
                 <motion.span
                 key={index}
                 initial={{
                     opacity:0,
-                    y:-10
+                    y:0
                 }}
                 animate={{
                     opacity:1,
@@ -39,7 +39,7 @@ const RotatingText = ({texts,interval=3500,className}:RotatingTextProps) => {
                 }}
                 exit={{
                     opacity:0,
-                    y:10
+                    y:0
                 }}
                 transition={{
                     delay:index*0.03,

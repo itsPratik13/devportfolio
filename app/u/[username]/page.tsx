@@ -30,16 +30,15 @@ export default async function ProfilePage({ params }: Props) {
 
   return (
     <div className="flex items-center justify-center min-h-screen  ">
-      
       <Container className="">
         <div>
-         <Header User={user} contributions={{
-          currentStreak,
-          longestStreak
-         }
-          
-         }/>
-
+          <Header
+            User={user}
+            contributions={{
+              currentStreak,
+              longestStreak,
+            }}
+          />
         </div>
       </Container>
     </div>

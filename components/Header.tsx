@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import { motion} from "motion/react";
+import { motion } from "motion/react";
 import RotatingText from "./RotatingText";
+import ThemeToggle from "./ModeToggle";
 
 type HeaderProps = {
   User: {
     name: string;
     avatarUrl?: string | null;
-    
   };
   contributions?: {
     total?: number;
@@ -17,8 +17,12 @@ type HeaderProps = {
   };
 };
 
-const Header = ({ User,contributions }: HeaderProps) => {
-  const rotatingTextArray=["Software Engineer","Fullstack Developer","Open Source Contributor"]
+const Header = ({ User, contributions }: HeaderProps) => {
+  const rotatingTextArray = [
+    "Software Engineer",
+    "Fullstack Developer",
+    "Open Source Contributor",
+  ];
   return (
     <HeaderCard className=" relative h-full p-6 mt-20 ">
       <svg className="absolute inset-0 w-full h-full  ">
@@ -49,22 +53,23 @@ const Header = ({ User,contributions }: HeaderProps) => {
               className="size-20 rounded-xl "
             />
             <div className="flex flex-col items-center">
-              <span className="mt-2  text-2xl font-semibold text-neutral-100">{User.name}</span>
+              <span className="mt-2  text-2xl font-semibold text-neutral-100">
+                {User.name}
+              </span>
               <div className="mt-3 text-sm text-neutral-400 h-6 flex items-center justify-center min-w-[220px]">
-    <RotatingText texts={rotatingTextArray} className="inline-flex" />
-  </div>
+                <RotatingText
+                  texts={rotatingTextArray}
+                  className="inline-flex"
+                />
+              </div>
             </div>
           </div>
           {/* right section */}
-          <button className="absolute top-4 right-4">dark mode</button>
-          <span className="absolute bottom-4 right-4 mr-3 mb-3 text-sm text-neutral-400"> Longest streak: {contributions?.longestStreak}</span>
-          
-          
-          
-
-          
-
-         
+          <div className="absolute top-4 right-4"><ThemeToggle/></div>
+          <span className="absolute bottom-4 right-4 mr-3 mb-3 text-sm text-neutral-400">
+            {" "}
+            Longest streak: {contributions?.longestStreak}
+          </span>
         </div>
       </HeaderCardTitle>
     </HeaderCard>

@@ -3,6 +3,7 @@ import ContributionHeatmap from "@/components/HeatMap";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { calculateStreak } from "@/lib/Streak";
+import Header from "@/components/Header";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -25,33 +26,16 @@ export default async function ProfilePage({ params }: Props) {
   });
 
   if (!user) notFound();
-  const {currentStreak,longestStreak}=calculateStreak(user.contributions)
+  const { currentStreak, longestStreak } = calculateStreak(user.contributions);
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center justify-center min-h-screen  ">
+      
       <Container className="">
-      <h1>{user.name}</h1>
-      <p>{user.bio}</p>
-      <p>Followers: {user.followers}</p>
-      <p>Repos: {user.repos.length}</p>
-      <p>Contributions: {user.contributions.length}</p>
-      <p>
-        Total contributions:{" "}
-        {user.contributions.reduce((sum, c) => sum + c.commitCount, 0)}
-      </p>
-      <ContributionHeatmap
-        contributions={user.contributions.map((c) => ({
-          date: c.date.toISOString(),
-          commitCount: c.commitCount,
-        }))}
-        totalContributions={user.contributions.reduce(
-          (sum, c) => sum + c.commitCount,
-          0
-        )}
-      />
-      <p>Current Streak:{currentStreak}</p>
-      <p>Longest Streak :{longestStreak}</p>
+        <div>
+         <Header User={user}/>
 
+        </div>
       </Container>
     </div>
   );

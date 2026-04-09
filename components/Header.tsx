@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
+import { motion} from "motion/react";
+import RotatingText from "./RotatingText";
 
 type HeaderProps = {
   User: {
@@ -16,6 +18,7 @@ type HeaderProps = {
 };
 
 const Header = ({ User,contributions }: HeaderProps) => {
+  const rotatingTextArray=["Software Engineer","Fullstack Developer","Open Source Contributor"]
   return (
     <HeaderCard className=" relative h-full p-6 mt-20 ">
       <svg className="absolute inset-0 w-full h-full  ">
@@ -47,7 +50,9 @@ const Header = ({ User,contributions }: HeaderProps) => {
             />
             <div className="flex flex-col items-center">
               <span className="mt-2  text-2xl font-semibold text-neutral-100">{User.name}</span>
-              <span className="text-sm text-neutral-400 mt-3">roles</span>
+              <div className="mt-3 text-sm text-neutral-400 h-6 flex items-center justify-center min-w-[220px]">
+    <RotatingText texts={rotatingTextArray} className="inline-flex" />
+  </div>
             </div>
           </div>
           {/* right section */}

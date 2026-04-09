@@ -6,10 +6,16 @@ type HeaderProps = {
   User: {
     name: string;
     avatarUrl?: string | null;
+    
+  };
+  contributions?: {
+    total?: number;
+    currentStreak?: number;
+    longestStreak?: number;
   };
 };
 
-const Header = ({ User }: HeaderProps) => {
+const Header = ({ User,contributions }: HeaderProps) => {
   return (
     <HeaderCard className=" relative h-full p-6 mt-20 ">
       <svg className="absolute inset-0 w-full h-full  ">
@@ -46,6 +52,7 @@ const Header = ({ User }: HeaderProps) => {
           </div>
           {/* right section */}
           <button className="absolute top-4 right-4">dark mode</button>
+          <span className="absolute bottom-4 right-4 mr-3 mb-3 text-sm text-neutral-400"> Longest streak: {contributions?.longestStreak}</span>
           
           
           

@@ -33,7 +33,12 @@ export default async function ProfilePage({ params }: Props) {
       
       <Container className="">
         <div>
-         <Header User={user}/>
+         <Header User={user} contributions={{
+          currentStreak,
+          longestStreak
+         }
+          
+         }/>
 
         </div>
       </Container>

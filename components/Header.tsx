@@ -2,35 +2,61 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
-type HeaderProps={
-    User:{
-        name:string,
-        avatarUrl?:string|null
-    }
-}
+type HeaderProps = {
+  User: {
+    name: string;
+    avatarUrl?: string | null;
+  };
+};
 
-const Header = ({User}:HeaderProps) => {
-  return <HeaderCard className=" relative h-full p-6 mt-20 "
-  >
+const Header = ({ User }: HeaderProps) => {
+  return (
+    <HeaderCard className=" relative h-full p-6 mt-20 ">
       <svg className="absolute inset-0 w-full h-full  ">
-    <rect
-      x="0"
-      y="0"
-      width="100%"
-      height="100%"
-      fill="none"
-      stroke="#CCCCCC"
-      strokeWidth="2"
-      strokeDasharray="10 10"
-      className="dark:stroke-[#4B5563]" // dash gap
-    />
-  </svg>
-  <HeaderCardTitle>
-    <div>
-       <Image src={User.avatarUrl||}
-    </div>
-  </HeaderCardTitle>
-  </HeaderCard>;
+        <rect
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          fill="none"
+          stroke="#CCCCCC"
+          strokeWidth="2"
+          strokeDasharray="10 10"
+          className="dark:stroke-[#4B5563]" // dash gap
+        />
+      </svg>
+      <HeaderCardTitle className="">
+        <div className="flex items-center justify-between w-full">
+          {/* left section  */}
+          <div className="flex items-center gap-10 ">
+            <Image
+              src={
+                User.avatarUrl ||
+                "https://images.unsplash.com/photo-1728577740843-5f29c7586afe?q=80&w=880&auto=format&fit=crop"
+              }
+              alt="logo"
+              height={50}
+              width={50}
+              className="size-20 rounded-xl "
+            />
+            <div className="flex flex-col items-center">
+              <span className="mt-2  text-2xl font-semibold text-neutral-100">{User.name}</span>
+              <span className="text-sm text-neutral-400 mt-3">roles</span>
+            </div>
+          </div>
+          {/* right section */}
+          <button className="absolute top-4 right-4">dark mode</button>
+          
+          
+          
+
+          
+
+         
+        </div>
+      </HeaderCardTitle>
+    </HeaderCard>
+  );
 };
 
 const HeaderCard = ({

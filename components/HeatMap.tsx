@@ -217,12 +217,12 @@ export default function ContributionHeatmap({
 
           <div
             ref={scrollContainerRef}
-            className="overflow-x-auto scroll-smooth"
+            className="overflow-hidden"
           >
             <div className="inline-block">
               {/* Month Labels */}
               <div
-                className="flex mb-2 text-[11px] text-gray-400 sticky top-0 bg-inherit z-10"
+                className="flex mb-2 text-[11px] text-neutral-600 sticky top-0 bg-inherit z-10"
                 style={{ gap: `${tileGap}px` }}
               >
                 {monthLabels.map((label, index) => {
@@ -278,11 +278,11 @@ export default function ContributionHeatmap({
 
         {/* Footer */}
         <div className="flex flex-1 gap-88">
-          <span className="text-xs text-gray-400 ml-2 tracking-tight">
+          <span className="text-xs text-neutral-600 ml-2 tracking-tight">
             {totalContributions.toLocaleString()} contributions in the last year
           </span>
 
-          <div className="flex items-center gap-1 text-[11px] text-gray-400">
+          <div className="flex items-center gap-1 text-[11px] text-neutral-600">
             <span>Less</span>
             {[0, 1, 2, 3, 4].map((level) => (
               <div

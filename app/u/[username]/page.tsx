@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { calculateStreak } from "@/lib/Streak";
 import Header from "@/components/Header";
 import DashedCard from "@/components/DashedBorder";
+import StatsCard from "@/components/StatsCard";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -52,18 +53,30 @@ export default async function ProfilePage({ params }: Props) {
         </div>
 
         {/* HEATMAP */}
-       
-          <ContributionHeatmap
-            contributions={user.contributions}
-            totalContributions={totalContributions}
-            className="items-center mx-auto p-6"
-          />
+
+        <ContributionHeatmap
+          contributions={user.contributions}
+          totalContributions={totalContributions}
+          className="items-center mx-auto p-6"
+        />
+
       
 
-        {/* FUTURE SECTION EXAMPLE */}
-
-        <div className="p-6 text-center text-neutral-500">
-          More components here...
+        <div className="p-6  text-neutral-500 grid grid-cols-2  gap-4">
+          <DashedCard className="">
+          <StatsCard
+            className=" rounded-lg relative"
+            heading="Contributions"
+            value={totalContributions}
+            subheading="Last 365 days"
+          />
+          </DashedCard>
+          <StatsCard
+            className=" rounded-lg"
+            heading="Contributions"
+            value={totalContributions}
+            subheading="Last 365 days"
+          />
         </div>
       </Container>
     </div>

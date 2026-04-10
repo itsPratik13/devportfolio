@@ -37,18 +37,16 @@ rounded-md"
       onClick={Switch_Theme}
     >
       <SunIcon
-        className="absolute inset-0 size-6 
+        className="absolute inset-0 size-4
 shrink-0 dark:scale-0 scale-100 dark:rotate-45 
 transition-all duration-300 cursor-pointer 
 m-auto"
-       
       />
       <MoonIcon
-        className="absolute inset-0 size-6 
+        className="absolute inset-0 size-4 
 shrink-0 dark:scale-100 scale-0  dark:rotate-0 
 rotate-45 transition-all duration-300 
 cursor-pointer m-auto "
-        
       />
     </button>
   );

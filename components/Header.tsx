@@ -3,10 +3,14 @@ import React from "react";
 import RotatingText from "./RotatingText";
 import ThemeToggle from "./ModeToggle";
 
+import HeaderStatCards from "./HeaderStatCards";
+
 type HeaderProps = {
   User: {
     name: string;
     avatarUrl?: string | null;
+    followers:number |0
+    repos:any |0
   };
   contributions?: {
     currentStreak?: number;
@@ -35,7 +39,7 @@ const Header = ({ User, contributions }: HeaderProps) => {
             {User.name}
           </span>
 
-          <div className="text-sm text-neutral-400 h-6 flex items-center">
+          <div className="text-sm text-neutral-500 h-6 flex items-center">
             <RotatingText
               texts={[
                 "Software Engineer",
@@ -48,12 +52,20 @@ const Header = ({ User, contributions }: HeaderProps) => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="flex flex-col items-end mt-6">
-        <span className="text-sm text-neutral-500">
-          Longest streak: {contributions?.longestStreak}
-        </span>
+      <div className="flex  items-center justify-between mt-6">
+        {/* <span className="text-sm text-neutral-500"> */}
+          {/* Longest streak: {contributions?.longestStreak} */}
+        {/* </span> */}
+        {/* <span className="text-sm text-neutral-500"> */}
+          {/* Longest streak: {contributions?.longestStreak} */}
+        {/* </span> */}
+        {/* <span className="text-sm text-neutral-500"> */}
+          {/* Longest streak: {contributions?.longestStreak} */}
+        {/* </span> */}
+        <HeaderStatCards heading="Followers" value={User.followers} className="text-sm font-semibold text-neutral-500 mb-1"/>
+        <HeaderStatCards heading="Repos" value={User.repos.length} className="text-sm font-semibold text-neutral-500 mb-1"/>
       </div>
-      <div className=" absolute top-8 right-4">
+      <div className=" absolute top-2 right-2">
         <ThemeToggle />
       </div>
     </div>

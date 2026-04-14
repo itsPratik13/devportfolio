@@ -42,7 +42,7 @@ const RotatingText = ({texts,interval=3500,className}:RotatingTextProps) => {
                     y:0
                 }}
                 transition={{
-                    delay:index*0.03,
+                    delay:index*0.05,
                     duration:0.3
                 }}
                 >

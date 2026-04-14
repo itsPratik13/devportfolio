@@ -73,9 +73,9 @@ export default async function ProfilePage({ params }: Props) {
           </DashedCard>
           <StatsCard
             className=" rounded-lg"
-            heading="Contributions"
-            value={totalContributions}
-            subheading="Last 365 days"
+            heading="Current Streak"
+            value={currentStreak}
+            subheading="Keep going!"
           />
         </div>
       </Container>

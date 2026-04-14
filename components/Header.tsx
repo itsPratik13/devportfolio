@@ -62,8 +62,8 @@ const Header = ({ User, contributions }: HeaderProps) => {
         {/* <span className="text-sm text-neutral-500"> */}
           {/* Longest streak: {contributions?.longestStreak} */}
         {/* </span> */}
-        <HeaderStatCards heading="Followers" value={User.followers} className="text-sm font-semibold text-neutral-500 mb-1"/>
-        <HeaderStatCards heading="Repos" value={User.repos.length} className="text-sm font-semibold text-neutral-500 mb-1"/>
+        <HeaderStatCards heading="Followers" value={User.followers} className="text-sm font-semibold text-neutral-500 mb-1 dark:text-neutral-400"/>
+        <HeaderStatCards heading="Repos" value={User.repos.length} className="text-sm font-semibold text-neutral-500 mb-1 dark:text-neutral-400"/>
       </div>
       <div className=" absolute top-2 right-2">
         <ThemeToggle />

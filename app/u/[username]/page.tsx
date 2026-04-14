@@ -26,7 +26,10 @@ export default async function ProfilePage({ params }: Props) {
       languages: true,
     },
   });
-
+  const topLanguage = user?.languages[0].name || "NA";
+  const topLanguagePercentage = user?.languages[0].percent || 0;
+  const totalStars =
+    user?.repos.reduce((sum, repo) => sum + repo.stars, 0) ?? 0;
   if (!user) notFound();
 
   const { currentStreak, longestStreak } = calculateStreak(user.contributions);
@@ -60,23 +63,39 @@ export default async function ProfilePage({ params }: Props) {
           className="items-center mx-auto p-6"
         />
 
-      
-
-        <div className="p-6  text-neutral-500 grid grid-cols-2  gap-4">
+        <div className="p-6  text-neutral-500 dark:text-neutral-400 grid grid-cols-2  gap-4">
           <DashedCard className="">
-          <StatsCard
-            className=" rounded-lg relative"
-            heading="Contributions"
-            value={totalContributions}
-            subheading="Last 365 days"
-          />
+            <StatsCard
+              className=" rounded-lg relative"
+              heading="Contributions"
+              value={totalContributions}
+              subheading="Last 365 days"
+            />
           </DashedCard>
-          <StatsCard
-            className=" rounded-lg"
-            heading="Current Streak"
-            value={currentStreak}
-            subheading="Keep going!"
-          />
+          <DashedCard>
+            <StatsCard
+              className=" rounded-lg"
+              heading="Total Stars"
+              value={totalStars}
+              subheading="Across all repos"
+            />
+          </DashedCard>
+          <DashedCard>
+            <StatsCard
+              className=" rounded-lg"
+              heading="Top Language"
+              value={topLanguage}
+              subheading={`${topLanguagePercentage}% of codebase`}
+            />
+          </DashedCard>
+          <DashedCard>
+            <StatsCard
+              className=" rounded-lg"
+              heading="Current Streak"
+              value={currentStreak}
+              subheading="Keep going!"
+            />
+          </DashedCard>
         </div>
       </Container>
     </div>

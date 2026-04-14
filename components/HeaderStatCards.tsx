@@ -16,7 +16,7 @@ const HeaderStatCards = ({
   return (
     <div
       className={cn(
-        "w-full h-full flex flex-col justify-between items-center text-center p-4 rounded-md",
+        "w-full h-full flex flex-col justify-between items-center text-center p-4 rounded-md ",
         className
       )}
     >

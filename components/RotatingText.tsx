@@ -31,7 +31,7 @@ const RotatingText = ({texts,interval=3500,className}:RotatingTextProps) => {
                 key={index}
                 initial={{
                     opacity:0,
-                    y:0
+                    y:10
                 }}
                 animate={{
                     opacity:1,
@@ -39,7 +39,7 @@ const RotatingText = ({texts,interval=3500,className}:RotatingTextProps) => {
                 }}
                 exit={{
                     opacity:0,
-                    y:0
+                    y:-10
                 }}
                 transition={{
                     delay:index*0.05,

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import React from "react";
+import CountUp from "./CountUp";
 
 type HeaderStatCardProps = {
   className?: string;
@@ -21,7 +22,14 @@ const HeaderStatCards = ({
       )}
     >
       <h3 className={cn("", className)}>{heading}</h3>
-      <h2 className="">{value}</h2>
+      <h2 className="">
+    {" "}
+    {typeof value === "number" ? (
+      <CountUp value={value} separator />
+    ) : (
+      value
+    )}
+  </h2>
     </div>
   );
 };

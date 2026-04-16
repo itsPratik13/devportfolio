@@ -62,8 +62,9 @@ export default async function ProfilePage({ params }: Props) {
           totalContributions={totalContributions}
           className="items-center mx-auto p-6"
         />
+        
 
-        <div className="p-6  text-neutral-500 dark:text-neutral-400 grid grid-cols-2  gap-4">
+        <div className="p-6  text-neutral-600 dark:text-neutral-400 grid grid-cols-2  gap-4">
           <DashedCard className="">
             <StatsCard
               className=" rounded-lg relative"

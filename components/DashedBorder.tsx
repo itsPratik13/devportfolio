@@ -14,6 +14,10 @@ const DashedCard = ({ children, className }: Props) => {
       className={cn("relative overflow-hidden w-full rounded-lg", className)}
       initial="rest"
       whileHover="hover"
+     variants={{
+      rest: { scale: 1 },
+    hover: { scale: 1.04,transition:{duration:0.3,ease:"easeInOut"} },
+     }}
     >
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
         <motion.rect
@@ -27,11 +31,12 @@ const DashedCard = ({ children, className }: Props) => {
           stroke="currentColor"
           strokeWidth="2"
           strokeDasharray="6 6"
-          className="text-neutral-300 dark:text-[#4B5563]"
+          className="text-neutral-400/70 dark:text-[#49505b]"
           variants={{
             rest: { strokeDashoffset: 0 },
             hover: {
               strokeDashoffset: -24,
+              
 
               transition: {
                 duration: 1.2,

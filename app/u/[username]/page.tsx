@@ -97,14 +97,6 @@ export default async function ProfilePage({ params }: Props) {
               subheading="Keep going!"
             />
           </DashedCard>
-          <div className="p-6">
-            <DashedCard>
-              <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-              {activity.map((item, i) => (
-                <p key={i}>{item.details}</p>
-              ))}
-            </DashedCard>
-          </div>
         </div>
       </Container>
     </div>

@@ -39,14 +39,14 @@ const Header = ({ User, contributions }: HeaderProps) => {
             {User.name}
           </span>
 
-          <div className="text-[11px] text-neutral-600 h-6 flex items-center border border-neutral-500 overflow-hidden w-[175px] rounded-md mt-1 dark:text-neutral-300">
+          <div className="text-[11px] text-neutral-600 h-6 flex items-center border border-neutral-500 overflow-hidden w-[155px] rounded-md mt-1 dark:text-neutral-300 mx-auto">
             <RotatingText
               texts={[
                 "Software Engineer",
                 "Fullstack Developer",
-                "Open Source Contributor",
+                
               ]}
-              className="ml-1"
+              className="ml-2 tracking-tight "
             />
           </div>
         </div>

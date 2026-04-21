@@ -1,4 +1,3 @@
-
 import Container from "@/components/Container";
 import ContributionHeatmap from "@/components/HeatMap";
 import { prisma } from "@/lib/prisma";
@@ -7,6 +6,7 @@ import { calculateStreak } from "@/lib/Streak";
 import Header from "@/components/Header";
 import DashedCard from "@/components/DashedBorder";
 import StatsCard from "@/components/StatsCard";
+import { getGithubActivity } from "@/lib/GithubActivity";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -39,7 +39,7 @@ export default async function ProfilePage({ params }: Props) {
     (sum, day) => sum + day.commitCount,
     0
   );
-
+  const activity = await getGithubActivity(username);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Container>
@@ -63,7 +63,6 @@ export default async function ProfilePage({ params }: Props) {
           totalContributions={totalContributions}
           className="items-center mx-auto p-6"
         />
-        
 
         <div className="p-6  text-neutral-600 dark:text-neutral-400 grid grid-cols-2  gap-4">
           <DashedCard className="">
@@ -98,6 +97,14 @@ export default async function ProfilePage({ params }: Props) {
               subheading="Keep going!"
             />
           </DashedCard>
+          <div className="p-6">
+            <DashedCard>
+              <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
+              {activity.map((item, i) => (
+                <p key={i}>{item.details}</p>
+              ))}
+            </DashedCard>
+          </div>
         </div>
       </Container>
     </div>
